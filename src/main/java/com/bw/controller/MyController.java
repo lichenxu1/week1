@@ -49,6 +49,7 @@ public class MyController {
 		
 		service.delete(did);//进行删除中间表
 		service.deletes(did);//进行删除电影表
+		System.out.println(did);
 		return "redirect:list.do";
 		
 	}
