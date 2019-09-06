@@ -1,6 +1,6 @@
 package com.bw.controller;
 
-import java.lang.ProcessBuilder.Redirect;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bw.bean.Type;
-import com.bw.bean.Zhong;
+
 import com.bw.service.MyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -49,7 +49,7 @@ public class MyController {
 		
 		service.delete(did);//进行删除中间表
 		service.deletes(did);//进行删除电影表
-		System.out.println(did);
+		System.out.println(1);
 		return "redirect:list.do";
 		
 	}
@@ -74,6 +74,32 @@ public class MyController {
 		map.put("tid",tid);
 		service.add(map);
 		return true;
+		
+	}
+	//进行回显
+	@RequestMapping("show.do")
+	public Object show(Model model,int did){
+		
+	
+		Map<String, Object> show = service.show(did);
+		List<Type> xia = service.xia();
+		
+		model.addAttribute("show", show);
+		model.addAttribute("xia", xia);
+		return "update";
+
+	}
+	//进行修改
+	@RequestMapping("update.do")
+	@ResponseBody
+	public Object update(
+			String dname,
+			String js,
+			String dy,
+			String date,
+			String tid){
+			
+		return 1;
 		
 	}
 	

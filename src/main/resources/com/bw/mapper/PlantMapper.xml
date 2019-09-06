@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 对应的是接口的全名 -->
+<mapper namespace="com.bw.dao.MyDao">
+	<select id="list" parameterType="map" resultType="map">
+	select z.did,d.dname,d.js,d.dy,d.date,t.tname from zhong z
+	LEFT JOIN dianying d on d.did=z.did
+	LEFT JOIN type t on t.tid=z.tid
+	<where>
+	<if test="dname !=null and dname !=''">
+	and d.dname like concat('%',#{dname},'%')
+	</if>
+	</where>
+	</select>
+	<!-- 删除中间表 -->
+	<delete id="delete" parameterType="String">
+	delete from zhong where did in(${value})
+	</delete> 
+	<!-- 删除电影表 -->
+	<delete id="deletes" parameterType="String">
+	delete from dianying where did in(${value})
+	</delete> 
+	<!-- 进行获取下拉框 -->
+	<select id="xia" resultType="type">
+	select * from type
+	</select>
+	<!-- 进行添加中间表和电影表 -->
+	<insert id="add" parameterType="map" statementType="CALLABLE">
+	{
+	call findadd(#{dname},#{js},#{dy},#{date},#{tid})
+	}
+	</insert>
+	<select id="show" parameterType="int" resultType="map">
+	select z.did,d.dname,d.js,d.dy,d.date,t.tname,t.tid from zhong z
+	LEFT JOIN dianying d on d.did=z.did
+	LEFT JOIN type t on t.tid=z.tid
+	where z.did=#{did}
+	</select>
+</mapper>
